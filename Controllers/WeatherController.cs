@@ -4,8 +4,8 @@ using experimental_asp_net_webapi.Models;
 namespace experimental_asp_net_webapi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+[Route("api/v1/[controller]")]
+public class WeatherController : ControllerBase
 {
   private static readonly string[] Summaries = new[]
   {
