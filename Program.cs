@@ -19,5 +19,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseDefaultFiles(); // serve index.html by default
+app.UseStaticFiles();  // serve React build
 app.MapControllers();
+
 app.Run();
