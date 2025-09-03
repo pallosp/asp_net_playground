@@ -1,0 +1,10 @@
+# Client
+dist
+node_modules
+
+# Server
+bin
+obj
+
+# MacOS noise
+.DS_Store

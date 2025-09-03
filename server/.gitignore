@@ -1,6 +1,0 @@
-# Build results
-bin/
-obj/
-
-# MacOS noise
-.DS_Store
