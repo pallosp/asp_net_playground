@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "experimental_asp_net_webapi", "experimental_asp_net_webapi.csproj", "{7B6A22C0-FA77-59F3-8670-4BFB0BA3E2CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather_server", "weather_server.csproj", "{7B6A22C0-FA77-59F3-8670-4BFB0BA3E2CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-namespace experimental_asp_net_webapi.Models;
+namespace weather_server.Models;
 
 public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
