@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <Target Name="BuildClient" BeforeTargets="Build">
-    <Exec WorkingDirectory="client" Command="npm install" />
-    <Exec WorkingDirectory="client" Command="npm run build" />
+    <Exec WorkingDirectory="../client" Command="npm install" />
+    <Exec WorkingDirectory="../client" Command="npm run build" />
   </Target>
 
   <ItemGroup>
-    <Content Include="client/dist/**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../client/dist/**" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
