@@ -14,9 +14,9 @@ public class WeatherController : ControllerBase
   };
 
   [HttpGet]
-  public IEnumerable<WeatherForecast> Get()
+  public IEnumerable<WeatherForecast> Get([FromQuery] int days = 5)
   {
-    return Enumerable.Range(1, 5).Select(index =>
+    return Enumerable.Range(1, days).Select(index =>
         new WeatherForecast(
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             Random.Shared.Next(-20, 55),

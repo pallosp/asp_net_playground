@@ -1,6 +1,13 @@
 @host = http://localhost:5252
 
-GET {{host}}/api/v1/weather/
+### Default 5-day forecast
+GET {{host}}/api/v1/weather
 Accept: application/json
 
-###
+### Custom 10-day forecast
+GET {{host}}/api/v1/weather?days=10
+Accept: application/json
+
+### Invalid value
+GET {{host}}/api/v1/weather?days=-3
+Accept: application/json
