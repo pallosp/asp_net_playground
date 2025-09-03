@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(
+  new WebApplicationOptions
+  {
+    Args = args,
+    WebRootPath = Path.Combine("..", "client", "dist")
+  });
 builder.Services.AddControllers();
 
 // Add services to the container.
