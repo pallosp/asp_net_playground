@@ -47,8 +47,6 @@ public class StravaAuthController : ControllerBase
         new FormUrlEncodedContent(tokenRequestParams));
 
     var json = await response.Content.ReadAsStringAsync();
-    Console.WriteLine(json);
-
     var token = JsonSerializer.Deserialize<StravaAuthResponse>(json);
 
     if (token != null)
