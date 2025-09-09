@@ -1,3 +1,9 @@
+// To run the server, configure the Strava client secret first.
+// You can find it at https://www.strava.com/settings/api
+
+// dotnet user-secrets init
+// dotnet user-secrets set "Strava:ClientSecret" "..."
+
 using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(
@@ -7,10 +13,9 @@ var builder = WebApplication.CreateBuilder(
     WebRootPath = Path.Combine("..", "client", "dist")
   });
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddOpenApi();  // See more at https://aka.ms/aspnet/openapi
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

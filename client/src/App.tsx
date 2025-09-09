@@ -6,6 +6,19 @@ type Weather = {
   summary: string;
 };
 
+function StravaLoginButton() {
+  const handleLogin = () => {
+    window.location.href = "/api/v1/stravaauth/login";
+  };
+
+  return (
+    <div style={{ marginTop: "3rem" }}>
+      <h1>Strava OAuth Demo</h1>
+      <button onClick={handleLogin}>Connect with Strava</button>
+    </div>
+  );
+}
+
 function App() {
   const [weather, setWeather] = useState<Weather[]>([]);
 
@@ -26,6 +39,7 @@ function App() {
           </li>
         ))}
       </ul>
+      <StravaLoginButton />
     </div>
   );
 }
