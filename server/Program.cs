@@ -4,6 +4,8 @@
 // dotnet user-secrets init
 // dotnet user-secrets set "Strava:ClientSecret" "..."
 
+using weather_server.Services;
+
 var builder = WebApplication.CreateBuilder(
   new WebApplicationOptions
   {

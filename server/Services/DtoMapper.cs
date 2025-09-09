@@ -1,3 +1,7 @@
+namespace weather_server.Services;
+
+using weather_server.Models;
+
 public static class DtoMapper
 {
   public static StravaAthleteDto ToDto(StravaAthlete athlete)
@@ -11,4 +15,3 @@ public static class DtoMapper
     };
   }
 }
-

@@ -1,3 +1,5 @@
+namespace weather_server.Models;
+
 using System.Text.Json.Serialization;
 
 public class StravaAuthResponse
