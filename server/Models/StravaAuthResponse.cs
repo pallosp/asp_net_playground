@@ -27,11 +27,14 @@ public class StravaAthlete
   public long Id { get; set; }
 
   [JsonPropertyName("username")]
-  public required string UserName { get; set; }
+  public required string Username { get; set; }
 
   [JsonPropertyName("firstname")]
   public required string FirstName { get; set; }
 
+  [JsonPropertyName("lastname")]
+  public string LastName { get; set; } = "";
+
   [JsonPropertyName("profile_medium")]
-  public required string ProfilePicture { get; set; }
+  public required string ProfileImage { get; set; }
 }

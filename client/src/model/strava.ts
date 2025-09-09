@@ -1,6 +1,6 @@
 export interface StravaAthlete {
   id: number;
   username: string;
-  firstname: string;
-  profile_medium: string;
+  full_name: string;
+  profile_image: string;
 }

@@ -52,9 +52,9 @@ function StravaApiDemo() {
 
   return (
     <div style={{ marginTop: "3rem" }}>
-      <h1>Welcome, {athlete.firstname}</h1>
+      <h1>Welcome, {athlete.full_name}</h1>
       <img
-        src={athlete.profile_medium}
+        src={athlete.profile_image}
         alt="Profile picture"
         style={{ borderRadius: "50%", width: 120, height: 120 }}
       />

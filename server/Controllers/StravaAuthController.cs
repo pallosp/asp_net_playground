@@ -60,7 +60,8 @@ public class StravaAuthController : ControllerBase
   {
     var token = store.Get(athleteId);
     if (token == null) return NotFound();
-    return Ok(token.Athlete);
+    var dto = DtoMapper.ToDto(token.Athlete);
+    return Ok(dto);
   }
 
   [HttpPost("disconnect/{athleteId}")]
