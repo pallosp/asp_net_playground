@@ -4,8 +4,6 @@
 // dotnet user-secrets init
 // dotnet user-secrets set "Strava:ClientSecret" "..."
 
-using Microsoft.AspNetCore.Builder;
-
 var builder = WebApplication.CreateBuilder(
   new WebApplicationOptions
   {
@@ -15,6 +13,7 @@ var builder = WebApplication.CreateBuilder(
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddOpenApi();  // See more at https://aka.ms/aspnet/openapi
+builder.Services.AddSingleton<StravaAthleteCache>();
 
 var app = builder.Build();
 
