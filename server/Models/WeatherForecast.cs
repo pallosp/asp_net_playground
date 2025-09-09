@@ -1,4 +1,4 @@
-namespace weather_server.Models;
+namespace server.Models;
 
 public record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {

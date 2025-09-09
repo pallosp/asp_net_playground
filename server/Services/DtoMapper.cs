@@ -1,6 +1,6 @@
-namespace weather_server.Services;
+namespace server.Services;
 
-using weather_server.Models;
+using server.Models;
 
 public static class DtoMapper
 {

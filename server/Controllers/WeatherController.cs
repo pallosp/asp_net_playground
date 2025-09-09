@@ -1,7 +1,7 @@
-namespace weather_server.Controllers;
+namespace server.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
-using weather_server.Models;
+using server.Models;
 
 [ApiController]
 [Route("api/v1/[controller]")]

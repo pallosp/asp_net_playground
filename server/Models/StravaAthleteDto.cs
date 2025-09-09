@@ -1,4 +1,4 @@
-namespace weather_server.Models;
+namespace server.Models;
 
 using System.Text.Json.Serialization;
 

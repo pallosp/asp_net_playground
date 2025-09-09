@@ -1,8 +1,8 @@
-namespace weather_server.Services;
+namespace server.Services;
 
 using System.Collections.Concurrent;
 
-using weather_server.Models;
+using server.Models;
 
 using AthleteId = long;
 
