@@ -9,21 +9,15 @@ type Weather = {
 
 function StravaApiDemo() {
   const [athlete, setAthlete] = useState<StravaAthlete | null>(null);
-  const [athleteId, setAthleteId] = useState<string | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("athleteId");
-    if (id) {
-      setAthleteId(id);
-      fetch(`/api/v1/stravaauth/me/${id}`)
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to load athlete");
-          return res.json();
-        })
-        .then((data: StravaAthlete) => setAthlete(data))
-        .catch((err) => console.error(err));
-    }
+    fetch("/api/v1/stravaauth/me")
+      .then((res) => {
+        if (!res.ok) return null; // unauthorized or not connected
+        return res.json();
+      })
+      .then((data: StravaAthlete | null) => setAthlete(data))
+      .catch((err) => console.error(err));
   }, []);
 
   const handleLogin = () => {
@@ -31,11 +25,9 @@ function StravaApiDemo() {
   };
 
   const handleDisconnect = () => {
-    if (!athleteId) return;
-    fetch(`/api/v1/stravaauth/disconnect/${athleteId}`, { method: "POST" })
+    fetch("/api/v1/stravaauth/disconnect", { method: "POST" })
       .then(() => {
         setAthlete(null);
-        setAthleteId(null);
         window.history.replaceState({}, document.title, "/");
       })
       .catch((err) => console.error(err));

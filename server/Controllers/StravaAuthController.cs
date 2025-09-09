@@ -29,7 +29,7 @@ public class StravaAuthController : ControllerBase
   }
 
   [HttpGet("callback")]
-  public async Task<IActionResult> Callback([FromQuery] string code, [FromServices] StravaAthleteCache store)
+  public async Task<IActionResult> Callback([FromQuery] string code)
   {
     var clientId = _config["Strava:ClientId"];
     var clientSecret = _config["Strava:ClientSecret"];
@@ -51,26 +51,30 @@ public class StravaAuthController : ControllerBase
 
     if (token != null)
     {
-      store.Save(token);
-      return Redirect($"/?athleteId={token.Athlete.Id}");
+      HttpContext.Session.SetString("StravaToken", JsonSerializer.Serialize(token));
+      return Redirect("/");
     }
 
     return BadRequest("Failed to get token");
   }
 
-  [HttpGet("me/{athleteId}")]
-  public IActionResult Me(long athleteId, [FromServices] StravaAthleteCache store)
+  [HttpGet("me")]
+  public IActionResult Me()
   {
-    var token = store.Get(athleteId);
-    if (token == null) return NotFound();
+    var tokenJson = HttpContext.Session.GetString("StravaToken");
+    if (string.IsNullOrEmpty(tokenJson)) return Unauthorized();
+
+    var token = JsonSerializer.Deserialize<StravaAuthResponse>(tokenJson);
+    if (token == null) return Unauthorized();
+
     var dto = DtoMapper.ToDto(token.Athlete);
     return Ok(dto);
   }
 
-  [HttpPost("disconnect/{athleteId}")]
-  public IActionResult Disconnect(long athleteId, [FromServices] StravaAthleteCache store)
+  [HttpPost("disconnect")]
+  public IActionResult Disconnect()
   {
-    store.Delete(athleteId);
+    HttpContext.Session.Remove("StravaToken");
     return Ok();
   }
 }

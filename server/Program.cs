@@ -13,9 +13,15 @@ var builder = WebApplication.CreateBuilder(
     WebRootPath = Path.Combine("..", "client", "dist")
   });
 builder.Services.AddControllers();
+builder.Services.AddDistributedMemoryCache(); // Memory cache for sessions
 builder.Services.AddHttpClient();
 builder.Services.AddOpenApi();  // See more at https://aka.ms/aspnet/openapi
-builder.Services.AddSingleton<StravaAthleteCache>();
+builder.Services.AddSession(options =>
+{
+  options.IdleTimeout = TimeSpan.FromHours(1); // adjust as needed
+  options.Cookie.HttpOnly = true;
+  options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -32,6 +38,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseDefaultFiles(); // serve index.html by default
 app.UseStaticFiles();  // serve React build
+app.UseSession();
 app.MapControllers();
 
 app.Run();
