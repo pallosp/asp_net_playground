@@ -78,8 +78,7 @@ public class StravaAuthController : ControllerBase
     return Ok();
   }
 
-  [HttpGet("latest-activity")]
-  public async Task<IActionResult> LatestActivity()
+  private async Task<ActionResult<T>> CallStravaApi<T>(string url)
   {
     var tokenJson = HttpContext.Session.GetString("StravaToken");
     if (string.IsNullOrEmpty(tokenJson)) return Unauthorized();
@@ -87,28 +86,31 @@ public class StravaAuthController : ControllerBase
     var token = JsonSerializer.Deserialize<StravaAuthResponse>(tokenJson);
     if (token == null) return Unauthorized();
 
-    _http.DefaultRequestHeaders.Authorization =
+    var request = new HttpRequestMessage(HttpMethod.Get, url);
+    request.Headers.Authorization =
         new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Access_Token);
 
-    var response = await _http.GetAsync("https://www.strava.com/api/v3/athlete/activities?per_page=1&page=1");
-    Console.WriteLine(response.StatusCode);
+    var response = await _http.SendAsync(request);
     if (!response.IsSuccessStatusCode) return StatusCode((int)response.StatusCode);
 
     var json = await response.Content.ReadAsStringAsync();
-    Console.WriteLine(json);
-    var activities = JsonSerializer.Deserialize<List<StravaActivity>>(json);
+    var result = JsonSerializer.Deserialize<T>(json);
 
+    if (result == null) return NotFound();
+    return Ok(result);
+  }
+
+  [HttpGet("latest-activity")]
+  public async Task<ActionResult> LatestActivity()
+  {
+    var result = await CallStravaApi<List<StravaActivity>>(
+        "https://www.strava.com/api/v3/athlete/activities?per_page=1&page=1");
+
+    if (result.Result is not OkObjectResult ok) return result.Result!;
+
+    var activities = ok.Value as List<StravaActivity>;
     if (activities == null || activities.Count == 0) return NotFound();
 
-    var dto = new StravaActivityDto
-    {
-      Name = activities[0].Name,
-      SportType = activities[0].SportType,
-      Distance = activities[0].Distance,
-      MovingTime = activities[0].MovingTime,
-      StartDateUtc = activities[0].StartDateUtc
-    };
-
-    return Ok(dto);
+    return Ok(DtoMapper.ToDto(activities[0]));
   }
 }

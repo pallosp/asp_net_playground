@@ -14,4 +14,16 @@ public static class DtoMapper
       ProfileImage = athlete.ProfileImage
     };
   }
+
+  public static StravaActivityDto ToDto(StravaActivity activity)
+  {
+    return new StravaActivityDto
+    {
+      Name = activity.Name,
+      SportType = activity.SportType,
+      Distance = activity.Distance,
+      MovingTime = activity.MovingTime,
+      StartDateUtc = activity.StartDateUtc
+    };
+  }
 }
