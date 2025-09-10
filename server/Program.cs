@@ -40,5 +40,6 @@ app.UseDefaultFiles(); // serve index.html by default
 app.UseStaticFiles();  // serve React build
 app.UseSession();
 app.MapControllers();
+app.MapFallbackToFile("index.html"); // serve React for other routes
 
 app.Run();

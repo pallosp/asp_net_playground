@@ -77,4 +77,38 @@ public class StravaAuthController : ControllerBase
     HttpContext.Session.Remove("StravaToken");
     return Ok();
   }
+
+  [HttpGet("latest-activity")]
+  public async Task<IActionResult> LatestActivity()
+  {
+    var tokenJson = HttpContext.Session.GetString("StravaToken");
+    if (string.IsNullOrEmpty(tokenJson)) return Unauthorized();
+
+    var token = JsonSerializer.Deserialize<StravaAuthResponse>(tokenJson);
+    if (token == null) return Unauthorized();
+
+    _http.DefaultRequestHeaders.Authorization =
+        new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Access_Token);
+
+    var response = await _http.GetAsync("https://www.strava.com/api/v3/athlete/activities?per_page=1&page=1");
+    Console.WriteLine(response.StatusCode);
+    if (!response.IsSuccessStatusCode) return StatusCode((int)response.StatusCode);
+
+    var json = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(json);
+    var activities = JsonSerializer.Deserialize<List<StravaActivity>>(json);
+
+    if (activities == null || activities.Count == 0) return NotFound();
+
+    var dto = new StravaActivityDto
+    {
+      Name = activities[0].Name,
+      SportType = activities[0].SportType,
+      Distance = activities[0].Distance,
+      MovingTime = activities[0].MovingTime,
+      StartDateUtc = activities[0].StartDateUtc
+    };
+
+    return Ok(dto);
+  }
 }

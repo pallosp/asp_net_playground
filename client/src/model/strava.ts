@@ -4,3 +4,12 @@ export interface StravaAthlete {
   full_name: string;
   profile_image: string;
 }
+
+export interface StravaActivity {
+  id: number;
+  name: string;
+  sport_type: string;
+  distance: number;        // meters
+  moving_time: number;     // seconds
+  start_date_utc: string;  // ISO 8601 date/time
+}

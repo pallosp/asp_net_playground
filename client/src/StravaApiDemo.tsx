@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { StravaAthlete } from "./model/strava";
+import { Link } from "react-router-dom";
 
 export function StravaApiDemo() {
   const [athlete, setAthlete] = useState<StravaAthlete | null>(null);
@@ -45,6 +46,9 @@ export function StravaApiDemo() {
         style={{ borderRadius: "50%", width: 120, height: 120 }}
       />
       <p>@{athlete.username}</p>
+      <Link to="/latest">
+        <button>See latest activity</button>
+      </Link>
       <button onClick={handleDisconnect}>Disconnect</button>
     </div>
   );
