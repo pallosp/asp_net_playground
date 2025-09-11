@@ -8,12 +8,12 @@ using server.Services;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class StravaAuthController : ControllerBase
+public class StravaController : ControllerBase
 {
   private readonly HttpClient _http;
   private readonly IConfiguration _config;
 
-  public StravaAuthController(HttpClient http, IConfiguration config)
+  public StravaController(HttpClient http, IConfiguration config)
   {
     _http = http;
     _config = config;
@@ -23,7 +23,7 @@ public class StravaAuthController : ControllerBase
   public IActionResult Login()
   {
     var clientId = _config["Strava:ClientId"];
-    var redirectUri = "http://localhost:5252/api/v1/stravaauth/callback";
+    var redirectUri = "http://localhost:5252/api/v1/strava/callback";
     var url = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope=activity:read_all";
     return Redirect(url);
   }

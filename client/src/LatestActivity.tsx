@@ -16,7 +16,7 @@ function LatestActivityContent() {
   const [error, setError] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch("/api/v1/stravaauth/latest-activity")
+    fetch("/api/v1/strava/latest-activity")
       .then((res) => {
         if (!res.ok)
           throw new Error("Not connected or failed to load activity");

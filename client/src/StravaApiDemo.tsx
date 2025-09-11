@@ -6,7 +6,7 @@ export function StravaApiDemo() {
   const [athlete, setAthlete] = useState<StravaAthlete | null>(null);
 
   useEffect(() => {
-    fetch("/api/v1/stravaauth/me")
+    fetch("/api/v1/strava/me")
       .then((res) => {
         if (!res.ok) return null; // unauthorized or not connected
         return res.json();
@@ -16,11 +16,11 @@ export function StravaApiDemo() {
   }, []);
 
   const handleLogin = () => {
-    window.location.href = "/api/v1/stravaauth/login";
+    window.location.href = "/api/v1/strava/login";
   };
 
   const handleDisconnect = () => {
-    fetch("/api/v1/stravaauth/disconnect", { method: "POST" })
+    fetch("/api/v1/strava/disconnect", { method: "POST" })
       .then(() => {
         setAthlete(null);
         window.history.replaceState({}, document.title, "/");

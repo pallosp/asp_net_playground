@@ -14,13 +14,13 @@ public class WeatherController : ControllerBase
   };
 
   [HttpGet]
-  public ActionResult<IEnumerable<WeatherForecast>> Get([FromQuery] int days = 5)
+  public ActionResult<IEnumerable<WeatherForecastDto>> Get([FromQuery] int days = 5)
   {
     if (days < 1 || days > 14)
       return BadRequest("Invalid number of days");
 
     var forecasts = Enumerable.Range(1, days).Select(index =>
-        new WeatherForecast(
+        new WeatherForecastDto(
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
             Random.Shared.Next(-20, 55),
             Summaries[Random.Shared.Next(Summaries.Length)]
