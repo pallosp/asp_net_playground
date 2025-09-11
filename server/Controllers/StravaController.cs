@@ -6,6 +6,7 @@ using System.Text.Json;
 
 using server.Models;
 using server.Services;
+using Microsoft.AspNetCore.WebUtilities;
 
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -29,7 +30,7 @@ public class StravaController : ControllerBase
   }
 
   [HttpGet("connect")]
-  public IActionResult Connect()
+  public IActionResult Connect([FromQuery] string returnUrl)
   {
     var clientId = _config["Strava:ClientId"];
     var redirectUrl = Url.Action(
@@ -38,12 +39,21 @@ public class StravaController : ControllerBase
         null,
         Request.Scheme
     );
-    var url = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUrl}&scope=activity:read_all";
+    var url = QueryHelpers.AddQueryString(
+        "https://www.strava.com/oauth/authorize",
+        new Dictionary<string, string?>
+        {
+          ["client_id"] = clientId,
+          ["response_type"] = "code",
+          ["redirect_uri"] = redirectUrl,
+          ["scope"] = "activity:read_all",
+          ["state"] = returnUrl
+        });
     return Redirect(url);
   }
 
   [HttpGet("connect-callback")]
-  public async Task<ActionResult> ConnectCallback([FromQuery] string code)
+  public async Task<ActionResult> ConnectCallback([FromQuery] string code, [FromQuery] string state)
   {
     var clientId = _config["Strava:ClientId"];
     var clientSecret = _config["Strava:ClientSecret"];
@@ -66,7 +76,7 @@ public class StravaController : ControllerBase
     if (token != null)
     {
       HttpContext.Session.SetString("StravaToken", JsonSerializer.Serialize(token));
-      return Redirect("/");
+      return Redirect(Uri.UnescapeDataString(state));
     }
 
     return BadRequest("Failed to get token");

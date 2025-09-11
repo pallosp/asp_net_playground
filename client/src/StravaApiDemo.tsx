@@ -16,7 +16,7 @@ export function StravaApiDemo() {
   }, []);
 
   const handleConnect = () => {
-    window.location.href = "/api/v1/strava/connect";
+    window.location.href = "/api/v1/strava/connect?returnUrl=/";
   };
 
   const handleDisconnect = () => {
