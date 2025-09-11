@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { StravaActivity } from "./model/strava";
+import polyline from "@mapbox/polyline";
 
 export default function LatestActivity() {
   return (
@@ -52,7 +53,13 @@ function LatestActivityContent() {
       <br />
       When: {new Date(activity.start_date_utc).toLocaleString()}
       <br />
-      Route: {activity.encoded_route ? "Available" : "Not available"}
+      Route:{" "}
+      {activity.encoded_route
+        ? polyline
+            .decode(activity.encoded_route)
+            .map((p) => p.join(", "))
+            .join(" → ")
+        : "Not available"}
     </>
   );
 }
