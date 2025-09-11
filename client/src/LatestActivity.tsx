@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import type { StravaActivity } from "./model/strava";
 import polyline from "@mapbox/polyline";
+import leaflet from "leaflet";
+import { MapContainer, Marker, Polyline, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
 export default function LatestActivity() {
   return (
@@ -42,6 +45,8 @@ function LatestActivityContent() {
     return <p>No activity found (or not connected to Strava)</p>;
   }
 
+  const route = polyline.decode(activity.encoded_route);
+
   return (
     <>
       <p>
@@ -52,14 +57,33 @@ function LatestActivityContent() {
       Moving time: {(activity.moving_time / 60).toFixed(0)} min
       <br />
       When: {new Date(activity.start_date_utc).toLocaleString()}
-      <br />
-      Route:{" "}
-      {activity.encoded_route
-        ? polyline
-            .decode(activity.encoded_route)
-            .map((p) => p.join(", "))
-            .join(" → ")
-        : "Not available"}
+      <p />
+      {route.length == 0 && "No route available"}
+      {route.length > 0 && <ActivityMap route={route} />}
     </>
+  );
+}
+
+function ActivityMap({ route }: { route: Array<[number, number]> }) {
+  if (route.length === 0) return null;
+
+  const start = route[0];
+  const end = route[route.length - 1];
+  const bounds = leaflet.latLngBounds(route);
+
+  return (
+    <MapContainer
+      bounds={bounds}
+      scrollWheelZoom={true}
+      style={{ height: "400px", width: "600px" }}
+    >
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&copy; OpenStreetMap contributors"
+      />
+      <Polyline positions={route} color="red" />
+      <Marker position={start} />
+      <Marker position={end} />
+    </MapContainer>
   );
 }
