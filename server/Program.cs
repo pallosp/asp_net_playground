@@ -13,8 +13,9 @@ var builder = WebApplication.CreateBuilder(
     WebRootPath = Path.Combine("..", "client", "dist")
   });
 builder.Services.AddControllers();
-builder.Services.AddDistributedMemoryCache(); // Memory cache for sessions
+builder.Services.AddDistributedMemoryCache(); // For sessions
 builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache(); // For Strava API responses
 builder.Services.AddOpenApi();  // See more at https://aka.ms/aspnet/openapi
 builder.Services.AddSession(options =>
 {

@@ -1,6 +1,7 @@
 namespace server.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 
 using server.Models;
@@ -12,11 +13,19 @@ public class StravaController : ControllerBase
 {
   private readonly HttpClient _http;
   private readonly IConfiguration _config;
+  private readonly ILogger<StravaController> _logger;
+  private readonly IMemoryCache _cache;
 
-  public StravaController(HttpClient http, IConfiguration config)
+  public StravaController(
+    HttpClient http,
+    IConfiguration config,
+    ILogger<StravaController> logger,
+    IMemoryCache cache)
   {
     _http = http;
     _config = config;
+    _logger = logger;
+    _cache = cache;
   }
 
   [HttpGet("login")]
@@ -108,6 +117,14 @@ public class StravaController : ControllerBase
   [HttpGet("latest-activity")]
   public async Task<ActionResult> LatestActivity()
   {
+    var cacheKey = "LatestActivity";
+    if (_cache.TryGetValue(cacheKey, out var cachedResponse))
+    {
+      _logger.LogDebug("Cache hit for latest activity");
+      return Ok(cachedResponse);
+    }
+
+    _logger.LogDebug("Fetching latest activity from Strava");
     var result = await CallStravaApi<List<StravaActivity>>(
         "https://www.strava.com/api/v3/athlete/activities?per_page=1&page=1");
 
@@ -116,6 +133,8 @@ public class StravaController : ControllerBase
     var activities = ok.Value as List<StravaActivity>;
     if (activities == null || activities.Count == 0) return NotFound();
 
-    return Ok(DtoMapper.ToDto(activities[0]));
+    var dto = DtoMapper.ToDto(activities[0]);
+    _cache.Set(cacheKey, dto, TimeSpan.FromMinutes(5));
+    return Ok(dto);
   }
 }
