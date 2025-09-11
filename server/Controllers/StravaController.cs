@@ -23,8 +23,13 @@ public class StravaController : ControllerBase
   public IActionResult Login()
   {
     var clientId = _config["Strava:ClientId"];
-    var redirectUri = "http://localhost:5252/api/v1/strava/callback";
-    var url = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope=activity:read_all";
+    var redirectUrl = Url.Action(
+        "Callback",
+        ControllerContext.ActionDescriptor.ControllerName,
+        null,
+        Request.Scheme
+    );
+    var url = $"https://www.strava.com/oauth/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUrl}&scope=activity:read_all";
     return Redirect(url);
   }
 
