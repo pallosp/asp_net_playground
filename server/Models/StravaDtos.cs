@@ -18,6 +18,9 @@ public class StravaActivityDto
 
   [JsonPropertyName("start_date_utc")]
   public DateTime StartDateUtc { get; set; }
+
+  [JsonPropertyName("encoded_route")]
+  public string EncodedRoute { get; set; } = "";
 }
 
 public class StravaAthleteDto

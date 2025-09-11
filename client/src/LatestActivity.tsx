@@ -46,9 +46,13 @@ function LatestActivityContent() {
       <p>
         <strong>{activity.name}</strong> ({activity.sport_type})
       </p>
-      <p>Distance: {(activity.distance / 1000).toFixed(1)} km</p>
-      <p>Moving time: {(activity.moving_time / 60).toFixed(0)} min</p>
-      <p>When: {new Date(activity.start_date_utc).toLocaleString()}</p>
+      Distance: {(activity.distance / 1000).toFixed(1)} km
+      <br />
+      Moving time: {(activity.moving_time / 60).toFixed(0)} min
+      <br />
+      When: {new Date(activity.start_date_utc).toLocaleString()}
+      <br />
+      Route: {activity.encoded_route ? "Available" : "Not available"}
     </>
   );
 }

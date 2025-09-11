@@ -14,6 +14,15 @@ public class StravaActivity
   public int MovingTime { get; set; } = 0; // seconds
   [JsonPropertyName("start_date")]
   public required DateTime StartDateUtc { get; set; }
+
+  [JsonPropertyName("map")]
+  public StravaMap? Map { get; set; }
+}
+
+public class StravaMap
+{
+  [JsonPropertyName("summary_polyline")]
+  public string EncodedRoute { get; set; } = "";
 }
 
 public class StravaAthlete

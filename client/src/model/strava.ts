@@ -12,4 +12,5 @@ export interface StravaActivity {
   distance: number;        // meters
   moving_time: number;     // seconds
   start_date_utc: string;  // ISO 8601 date/time
+  encoded_route: string;   // activity route with Google Polyline Encoding
 }

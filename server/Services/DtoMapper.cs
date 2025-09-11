@@ -23,7 +23,8 @@ public static class DtoMapper
       SportType = activity.SportType,
       Distance = activity.Distance,
       MovingTime = activity.MovingTime,
-      StartDateUtc = activity.StartDateUtc
+      StartDateUtc = activity.StartDateUtc,
+      EncodedRoute = activity.Map?.EncodedRoute ?? ""
     };
   }
 }
