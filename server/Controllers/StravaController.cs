@@ -28,12 +28,12 @@ public class StravaController : ControllerBase
     _cache = cache;
   }
 
-  [HttpGet("login")]
-  public IActionResult Login()
+  [HttpGet("connect")]
+  public IActionResult Connect()
   {
     var clientId = _config["Strava:ClientId"];
     var redirectUrl = Url.Action(
-        "Callback",
+        "ConnectCallback",
         ControllerContext.ActionDescriptor.ControllerName,
         null,
         Request.Scheme
@@ -42,8 +42,8 @@ public class StravaController : ControllerBase
     return Redirect(url);
   }
 
-  [HttpGet("callback")]
-  public async Task<IActionResult> Callback([FromQuery] string code)
+  [HttpGet("connect-callback")]
+  public async Task<ActionResult> ConnectCallback([FromQuery] string code)
   {
     var clientId = _config["Strava:ClientId"];
     var clientSecret = _config["Strava:ClientSecret"];
@@ -73,7 +73,7 @@ public class StravaController : ControllerBase
   }
 
   [HttpGet("me")]
-  public IActionResult Me()
+  public ActionResult<StravaAthleteDto> Me()
   {
     var tokenJson = HttpContext.Session.GetString("StravaToken");
     if (string.IsNullOrEmpty(tokenJson)) return Unauthorized();
@@ -115,7 +115,7 @@ public class StravaController : ControllerBase
   }
 
   [HttpGet("latest-activity")]
-  public async Task<ActionResult> LatestActivity()
+  public async Task<ActionResult<StravaActivityDto>> LatestActivity()
   {
     var cacheKey = "LatestActivity";
     if (_cache.TryGetValue(cacheKey, out var cachedResponse))

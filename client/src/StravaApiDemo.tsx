@@ -15,8 +15,8 @@ export function StravaApiDemo() {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleLogin = () => {
-    window.location.href = "/api/v1/strava/login";
+  const handleConnect = () => {
+    window.location.href = "/api/v1/strava/connect";
   };
 
   const handleDisconnect = () => {
@@ -32,7 +32,7 @@ export function StravaApiDemo() {
     return (
       <div style={{ marginTop: "3rem" }}>
         <h1>Strava API demo</h1>
-        <button onClick={handleLogin}>Connect with Strava</button>
+        <button onClick={handleConnect}>Connect with Strava</button>
       </div>
     );
   }
