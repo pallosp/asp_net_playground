@@ -6,7 +6,9 @@ Random weather forecast + Strava API + OSM demo
 
 ### Publishing to gcloud
 
+From the `server/` directory
+
 ```sh
-dotnet publish -c Release -o dist
-gcloud compute scp --recurse ./dist/* asp-net-demo:~/app
+dotnet publish -c Release -o ../dist
+gcloud compute scp --recurse ../dist/* asp-net-demo:~/app
 ```
