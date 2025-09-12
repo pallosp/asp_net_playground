@@ -10,6 +10,16 @@ var builder = WebApplication.CreateBuilder(
       Args = args,
       WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot")
     });
+
+var stravaSecret = builder.Configuration["Strava:ClientSecret"];
+if (string.IsNullOrWhiteSpace(stravaSecret))
+{
+  LoggerFactory
+      .Create(logging => logging.AddConsole())
+      .CreateLogger("StartupCheck")
+      .LogWarning("Strava ClientSecret is missing. API calls will fail.");
+}
+
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache(); // For sessions
 builder.Services.AddHttpClient();

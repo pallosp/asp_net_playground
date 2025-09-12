@@ -13,10 +13,14 @@ dotnet publish -c Release
 gcloud compute scp --recurse bin/Release/net9.0/publish/* asp-net-demo:~/app
 ```
 
-### Running the server
+### Running on Compute Engine
 
-```
+```sh
 gcloud compute ssh asp-net-demo
+
+# Copy from https://strava.com/settings/api
+export Strava__ClientSecret="..."
+
 cd ~/app
 dotnet server.dll --urls "http://0.0.0.0:5252"
 ```
