@@ -4,13 +4,13 @@
 // dotnet user-secrets init
 // dotnet user-secrets set "Strava:ClientSecret" "..."
 
-using server.Services;
+var devWebRoot = Path.Combine("..", "client", "dist");
 
 var builder = WebApplication.CreateBuilder(
   new WebApplicationOptions
   {
     Args = args,
-    WebRootPath = Path.Combine("..", "client", "dist")
+    WebRootPath = Directory.Exists(devWebRoot) ? devWebRoot : "."
   });
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache(); // For sessions
