@@ -4,14 +4,12 @@
 // dotnet user-secrets init
 // dotnet user-secrets set "Strava:ClientSecret" "..."
 
-var devWebRoot = Path.Combine("..", "client", "dist");
-
 var builder = WebApplication.CreateBuilder(
-  new WebApplicationOptions
-  {
-    Args = args,
-    WebRootPath = Directory.Exists(devWebRoot) ? devWebRoot : "."
-  });
+    new WebApplicationOptions
+    {
+      Args = args,
+      WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot")
+    });
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache(); // For sessions
 builder.Services.AddHttpClient();
@@ -36,7 +34,7 @@ if (app.Environment.IsDevelopment())
   });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseDefaultFiles(); // serve index.html by default
 app.UseStaticFiles();  // serve React build
 app.UseSession();
