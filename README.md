@@ -21,17 +21,17 @@ gcloud compute scp --recurse bin/Release/net9.0/publish/* asp-net-demo:~/app
 gcloud compute ssh asp-net-demo
 
 # Copy from https://strava.com/settings/api
-export Strava__ClientSecret="..."
+export Strava__ClientSecret='...'
 
 cd ~/app
-dotnet server.dll --urls "http://0.0.0.0:5252"
+dotnet server.dll --urls 'http://0.0.0.0:5252'
 ```
 
 **On port 80, until the VM reboots**
 
 ```sh
 sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which dotnet))
-nohup dotnet server.dll --urls "http://0.0.0.0:80" | tee -a server.log
+nohup dotnet server.dll --urls 'http://0.0.0.0:80' | tee -a server.log
 ```
 
 ### Website
