@@ -15,6 +15,8 @@ gcloud compute scp --recurse bin/Release/net9.0/publish/* asp-net-demo:~/app
 
 ### Running on Compute Engine
 
+**While the SSH session lasts**
+
 ```sh
 gcloud compute ssh asp-net-demo
 
@@ -23,6 +25,12 @@ export Strava__ClientSecret="..."
 
 cd ~/app
 dotnet server.dll --urls "http://0.0.0.0:5252"
+```
+
+**Until VM reboot**
+
+```sh
+nohup dotnet server.dll --urls "http://0.0.0.0:5252" | tee -a server.log
 ```
 
 ### Website
