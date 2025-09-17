@@ -10,6 +10,8 @@ From the `server/` directory
 
 ```sh
 dotnet publish -c Release
+
+gcloud compute ssh asp-net-demo --command "rm -rf ~/app/*"
 gcloud compute scp --recurse bin/Release/net9.0/publish/* asp-net-demo:~/app
 ```
 
