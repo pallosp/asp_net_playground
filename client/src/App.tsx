@@ -1,3 +1,4 @@
+import { AuthDemo } from "./AuthDemo";
 import { WeatherDemo } from "./WeatherDemo";
 import { StravaApiDemo } from "./StravaApiDemo";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -8,6 +9,7 @@ function MainPage() {
     <>
       <WeatherDemo />
       <StravaApiDemo />
+      <AuthDemo />
     </>
   );
 }

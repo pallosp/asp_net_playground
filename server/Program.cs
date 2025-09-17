@@ -4,6 +4,8 @@
 // dotnet user-secrets init
 // dotnet user-secrets set "Strava:ClientSecret" "..."
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(
     new WebApplicationOptions
     {
@@ -20,6 +22,13 @@ if (string.IsNullOrWhiteSpace(stravaSecret))
       .LogWarning("Strava ClientSecret is missing. API calls will fail.");
 }
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+      options.LoginPath = "/auth/login";
+      options.LogoutPath = "/auth/logout";
+    });
+builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddDistributedMemoryCache(); // For sessions
 builder.Services.AddHttpClient();
@@ -45,6 +54,8 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseDefaultFiles(); // serve index.html by default
 app.UseStaticFiles();  // serve React build
 app.UseSession();
