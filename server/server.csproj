@@ -12,6 +12,10 @@
     <Exec WorkingDirectory="../client" Command="npm run build" />
   </Target>
 
+  <Target Name="CleanWwwroot" BeforeTargets="PrepareForPublish">
+    <RemoveDir Directories="$(PublishDir)wwwroot" />
+  </Target>
+
   <ItemGroup>
     <Content Include="../client/dist/**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
