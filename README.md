@@ -27,17 +27,18 @@ cd ~/app
 dotnet server.dll --urls "http://0.0.0.0:5252"
 ```
 
-**Until VM reboot**
+**On port 80, until the VM reboots**
 
 ```sh
-nohup dotnet server.dll --urls "http://0.0.0.0:5252" | tee -a server.log
+sudo setcap 'cap_net_bind_service=+ep' $(readlink -f $(which dotnet))
+nohup dotnet server.dll --urls "http://0.0.0.0:80" | tee -a server.log
 ```
 
 ### Website
 
 - http://localhost:5173/ (served by `npm run dev`)
 - http://localhost:5252/ (served by `dotnet run`)
-- http://34.72.225.123:5252/ (compute engine IP printed by
+- http://34.72.225.123/ (compute engine IP printed by
   `gcloud compute instances list`)
-- http://pallosp.mywire.org:5252/ (dynamic DNS registered at
+- http://pallosp.mywire.org/ (dynamic DNS registered at
   [dynu](https://www.dynu.com/))
